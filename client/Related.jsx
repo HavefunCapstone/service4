@@ -48,7 +48,7 @@ class Related extends React.Component {
   };
 
   relateItems = async (id) => {
-    const relArray = await axios.get("/products/" + id + "/related");
+    const relArray = await axios.get("/api/products/" + id + "/related");
 
     for (var i = 0; i < relArray.data.length; i++) {
       await this.getProductById(relArray.data[i]);
@@ -56,12 +56,12 @@ class Related extends React.Component {
   };
   getProductById = async (id /**11020 */) => {
     const product_res = await axios.get(
-      "/products/" + id
+      "/api/products/" + id
     ); /**getting product information by id */
     let product = product_res.data;
 
     const product_stl_res = await axios.get(
-      "/products/" + id + "/styles"
+      "/api/products/" + id + "/styles"
     ); /**getting firdt photo from style by id product */
     product.img =
       product_stl_res.data.results[0].photos[0].thumbnail_url; /**adding img to the current product */
@@ -70,7 +70,7 @@ class Related extends React.Component {
     product.sale_price = product_stl_res.data.results[0].sale_price;
 
     const product_rating_res = await axios.get(
-      "/products/reviews/meta/" + id
+      "/api/products/reviews/meta/" + id
     ); /**getting rattings reviews  */
     product.rating = this.averageRating(
       product_rating_res.data.ratings
@@ -113,14 +113,14 @@ class Related extends React.Component {
   }
 
   allProducts() {
-    axios.get("/products").then((response) => {
+    axios.get("/api/products").then((response) => {
       //res.send(response.data)
       // console.log(response.data)
     });
   }
   productStyles() {
     axios
-      .get("/products/" + this.state.product_id + "/styles")
+      .get("/api/products/" + this.state.product_id + "/styles")
       .then((response) => {
         //res.send(response.data)
         //console.log(response.data.results)
